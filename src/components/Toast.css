@@ -1,0 +1,74 @@
+.toast {
+  position: fixed;
+  top: -80px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 4px;
+  min-width: 280px;
+  max-width: 420px;
+  transition: top 0.5s var(--ease-luxury), opacity 0.5s ease;
+  opacity: 0;
+  overflow: hidden;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+}
+
+.toast.show {
+  top: 100px;
+  opacity: 1;
+}
+
+.toast-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.toast-success .toast-icon {
+  background: rgba(40, 167, 69, 0.15);
+  color: var(--success);
+}
+
+.toast-cart .toast-icon {
+  background: var(--accent-gold-glow);
+  color: var(--accent-gold);
+}
+
+.toast-message {
+  font-size: 0.88rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: var(--light-gray);
+}
+
+.toast-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  background: var(--accent-gold);
+  transform-origin: left;
+  transform: scaleX(0);
+}
+
+.toast.show .toast-progress {
+  animation: toastProgress 3s linear forwards;
+}
+
+@keyframes toastProgress {
+  from { transform: scaleX(1); }
+  to { transform: scaleX(0); }
+}

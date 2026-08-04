@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>BRAK - Instagram Profile Logo Generator</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@200&display=swap');
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: #111;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: 'Outfit', sans-serif;
+      color: white;
+    }
+
+    .controls {
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    button {
+      background: #c9a96e;
+      color: #000;
+      border: none;
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background: #dfc08a;
+      transform: translateY(-2px);
+    }
+
+    /* 1080x1080 is the standard for Instagram profile pics */
+    .instagram-square {
+      width: 1080px;
+      height: 1080px;
+      background-color: #000000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      /* Using a scale for preview so it fits on normal screens */
+      transform: scale(0.5);
+      transform-origin: top center;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    }
+
+    /* The circle overlay to show how it will crop on Instagram */
+    .crop-preview {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 4px dashed rgba(255, 255, 255, 0.2);
+      pointer-events: none;
+    }
+
+    .logo-container {
+      display: flex;
+      flex-direction: column; /* Stacked layout for better visibility in circle */
+      align-items: center;
+      gap: 40px;
+      transform: translateY(-20px); /* Visual balance adjustment */
+    }
+
+    .lightning-wrapper {
+      width: 250px;
+      height: 250px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lightning-icon {
+      width: 100%;
+      height: 100%;
+      color: #fff;
+      overflow: visible;
+      filter: drop-shadow(0 0 20px rgba(201, 169, 110, 0.5));
+    }
+
+    .bolt-path {
+      fill: rgba(255, 255, 255, 0.95);
+      stroke: rgba(255, 255, 255, 0.8);
+      stroke-width: 0.2;
+    }
+
+    .logo-text {
+      font-family: 'Outfit', sans-serif;
+      font-size: 180px;
+      font-weight: 200;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      margin-left: 0.4em; /* Compensate for letter-spacing on the right */
+
+      background: linear-gradient(
+        110deg,
+        #777777 0%,
+        #dfc08a 20%,
+        #ffffff 40%,
+        #dfc08a 60%,
+        #777777 80%,
+        #ffffff 100%
+      );
+      background-size: 250% auto;
+      color: transparent;
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+  </style>
+  <!-- html2canvas for exporting -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+
+  <div class="controls">
+    <h2>Instagram Profile Logo</h2>
+    <p>1080x1080 resolution. The dashed circle shows the Instagram crop area.</p>
+    <button onclick="downloadImage()">Download PNG</button>
+  </div>
+
+  <div class="instagram-square" id="logo-node">
+    <div class="crop-preview" id="crop-circle"></div>
+    <div class="logo-container">
+      <div class="lightning-wrapper">
+        <svg class="lightning-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path class="bolt-path" d="M13.5 2L5 13H12L10.5 22L19 11H12L13.5 2Z" stroke="currentColor" stroke-linejoin="miter"/>
+        </svg>
+      </div>
+      <span class="logo-text">BRAK</span>
+    </div>
+  </div>
+
+  <script>
+    function downloadImage() {
+      // Hide the crop circle before capturing
+      document.getElementById('crop-circle').style.display = 'none';
+      
+      const node = document.getElementById('logo-node');
+      
+      // Temporarily remove scaling to capture full resolution
+      const originalTransform = node.style.transform;
+      node.style.transform = 'scale(1)';
+      
+      // Give the browser a tiny delay to apply the un-scale
+      setTimeout(() => {
+        html2canvas(node, {
+          backgroundColor: '#000000',
+          scale: 1, // Capture at 1080x1080
+          useCORS: true,
+          logging: false
+        }).then(canvas => {
+          // Restore the crop circle and scaling
+          document.getElementById('crop-circle').style.display = 'block';
+          node.style.transform = originalTransform || 'scale(0.5)';
+          
+          // Trigger download
+          const link = document.createElement('a');
+          link.download = 'BRAK_Instagram_Profile.png';
+          link.href = canvas.toDataURL('image/png');
+          link.click();
+        });
+      }, 100);
+    }
+  </script>
+</body>
+</html>
