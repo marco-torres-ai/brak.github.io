@@ -20,7 +20,7 @@ const AdminLogin = () => {
       await loginAdmin(email, password);
       navigate('/admin/dashboard');
     } catch (err) {
-      setError('Invalid credentials. Use admin@brak.com / admin123');
+      setError(err.message || 'Invalid credentials.');
     } finally {
       setIsLoading(false);
     }
@@ -69,8 +69,8 @@ const AdminLogin = () => {
           </button>
 
           <div className="demo-credentials">
-            <p className="demo-label">Demo Credentials</p>
-            <p>admin@brak.com &bull; admin123</p>
+            <p className="demo-label">Admin Access Only</p>
+            <p>Please enter your registered Supabase credentials</p>
           </div>
         </form>
       </div>
